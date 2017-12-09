@@ -8,12 +8,7 @@ output:
   pdf_document: default
 ---
 
-# Developing Data Products - Course Project
-=========================
-This is a submission for Coursera: Developing Data Products- Course Project
-
-## Inpatient Prospective Payment System
-==================
+# Inpatient Prospective Payment System
 
 The dataset is a subset of a United States medical expenditures dataset with information on costs for different medical conditions and in different areas of the country.
 
