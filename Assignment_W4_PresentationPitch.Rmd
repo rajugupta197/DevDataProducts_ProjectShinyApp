@@ -1,0 +1,60 @@
+---
+title: "Inpatient Prospective Payment System"
+author: "Raju Gupta"
+date: "December 9, 2017"
+output:
+  ioslides_presentation: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+## Inpatient Prospective Payment System
+
+The dataset is a subset of a United States medical expenditures dataset with information on costs for different medical conditions and in different areas of the country.
+
+The data include hospital-specific charges for the more than 3,000 U.S. hospitals *(total 6401 rows)* that receive Medicare Inpatient Prospective Payment System (IPPS) payments for the top 100 most frequently billed discharges for Fiscal Year 2011.
+
+The **objective** is to analyse the relationship between mean covered charges and mean total payments that vary by medical condition and the state in which care was received.
+
+A simple application is deployed at: <https://rgupta197.shinyapps.io/ProjectShinyApp/>
+
+## App Features
+
+**View Data Analysis charts** <br>
+User can view the various colourful charts showing relationship between mean covered charges and mean total payments for each U.S. state.
+
+**Show/Hide Linear Models** <br>
+User can choose among the 6 available linear models of Diagnosis-Related Groups information to be displayed/hide in the plots.
+
+**Show/Hide U.S. State Plots** <br>
+User can also show/hide the each state's plot.
+
+**View and Download Dataset** <br>
+User can view, filter and download the dataset. Data can be filtered out by selecting any combination of checkboxes on the left penal.
+
+## View Sample Data
+
+```{r, echo=TRUE}
+dt <- read.csv('data/payments.csv')
+dt1 <- dt[, c('DRG.Definition', 'Provider.State', 
+              'Average.Covered.Charges', 'Average.Total.Payments')]
+head(dt1,4)
+```
+
+## Insights from Analysis Charts
+
+```{r, echo=FALSE, message=FALSE, results='hide'}
+options(scipen = 5)
+CA <- dt[dt$Provider.State == 'CA', 
+         c('DRG.Definition', 'Provider.State', 
+           'Average.Covered.Charges', 'Average.Total.Payments')]
+```
+
+```{r, echo=TRUE, fig.height=3.8}
+lm.CA <- lm(Average.Total.Payments ~ Average.Covered.Charges, data=CA)
+plot(x = CA$Average.Covered.Charges, y = CA$Average.Total.Payments, ylab = "Mean Total Payments", xlab = "Mean Covered Charges", main = "CA", col = CA$DRG.Definition, ylim = c(0,25000), xlim = c(0,160000), pch = c(15:20)[as.numeric(CA$DRG.Definition)], cex = 0.8)
+abline(lm.CA, col = 2, lwd = 2)
+```
+**Thank You**
